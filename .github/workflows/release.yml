@@ -64,9 +64,11 @@ jobs:
       #
       # An unsuffixed module path (v0/v1) has no major to check and is skipped.
       - name: Check the computed major matches the module path
+        env:
+          COMPUTED_SEMVER: ${{ needs.version.outputs.semver }}
         run: |
           set -euo pipefail
-          computed="${{ needs.version.outputs.semver }}"
+          computed="${COMPUTED_SEMVER}"
           major="${computed%%.*}"
           modpath="$(go list -m)"
           suffix="${modpath##*/}"
@@ -84,8 +86,10 @@ jobs:
           echo "v$major matches $suffix"
 
       - name: Create local release tag
+        env:
+          COMPUTED_SEMVER: ${{ needs.version.outputs.semver }}
         run: |
-          git tag "v${{ needs.version.outputs.semver }}"
+          git tag "v${COMPUTED_SEMVER}"
           # GoReleaser creates the remote release and tag only after artifacts
           # build successfully. Do not push a tag before that transaction.
 
