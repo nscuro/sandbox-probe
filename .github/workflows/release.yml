@@ -53,6 +53,7 @@ jobs:
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7
         with:
           go-version-file: go.mod
+          cache: false
 
       # A tag whose major disagrees with the module path is unresolvable: the Go proxy
       # refuses it, so the release publishes binaries nobody can `go get`. It has happened
