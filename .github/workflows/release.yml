@@ -8,8 +8,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: write
+permissions: {}
 
 jobs:
   version:
@@ -41,6 +40,8 @@ jobs:
     # working darwin build at all (no Apple SDK/frameworks), which is why
     # both prior release attempts failed at darwin_amd64_v1.
     runs-on: macos-latest
+    permissions:
+      contents: write # Required for GoReleaser to create releases and upload assets.
     steps:
       - name: Check out code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
